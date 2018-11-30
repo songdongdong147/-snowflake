@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>下雪</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        html,body,#box{
+            background-image:
+             url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1543560931801&di=3580324a3a92e1a3b397796ea80e8aeb&imgtype=0&src=http%3A%2F%2Fpic25.photophoto.cn%2F20121115%2F0034034801979100_b.jpg");
+            width:100%;
+            height:100%;
+            background-repeat:no-repeat;
+            background-size:100%;  
+            /* background: orange; */
+            overflow: hidden;
+        }
+        #box{
+           position: relative;
+        }
+        .xue{
+            position: absolute;
+            border-radius: 50%;
+            top:10px;
+    
+            background: #fff;
+        }
+    
+    </style>
+</head>
+<body>
+    <div id='box'>
+
+
+
+    </div>
+</body>
+<script> 
+
+   function Xue(postL,widH,ranle){
+       //每次调用的时候创建一个元素
+        this.div = document.createElement('div');
+        // 绑定随机向右定位数
+        this.postL=postL;
+        // 绑定宽度
+        this. widH = widH;
+        //绑定下落的时候随机数
+        this.ranle = ranle;
+
+        //绑定一个给dom进行样式改变方法
+        this. dom();
+
+        //绑定一个下落方法
+        this.run();
+   }  
+
+//    把dom绑定到原型中
+   Xue.prototype.dom=function(){
+       //给创建好的dom元素绑定类名
+        this.div.className='xue';
+        //给创建好的dom元素设置宽度
+        this.div.style.width=this.widH+"px";
+        //给创建好的dom元素设置高度
+        this.div.style.height=this.widH+"px";
+        //给创建好的dom元素设置向有定位的距离
+        this.div.style.left=this.postL+"px";
+
+        // 将创建好的元素插入到父元素中
+        box.appendChild(this.div);
+   }
+   // 把雪花下落的方法绑定到原型中
+   Xue.prototype.run=function(){
+    //    使用延时定时器
+       var time = setInterval(()=>{
+        //    获取到元素的top值在原基础上+=随机数
+            var Top=this.div.offsetTop+=this.ranle;
+            //    获取到元素的left值在原基础上+=随机数
+            var Left=this.div.offsetLeft+=this.ranle;
+
+        //判断如果距离大于700的时候
+            if(Top>700){
+                // 清除延时定时器
+                clearInterval(time);
+                // 并且把元素进行删除
+                box.removeChild(this.div);
+            }
+
+            // 获取到的top距离进行重新定位
+            this.div.style.top=Top+"px";
+            // 获取到的left距离进行重新定位
+            this.div.style.left=+Left+"px";
+            
+       },10)
+   }
+
+
+//封装一个随机数
+   var ran = ((max,min)=>{
+        return parseInt(Math.random()*max+min);
+   })
+
+// 使用延时定时器反复调用构造函数
+   setInterval(()=>{
+    new Xue(ran(1900,-200),ran(10,6),ran(3,1));
+   },100);
+  
+
+
+
+</script>
+</html>
